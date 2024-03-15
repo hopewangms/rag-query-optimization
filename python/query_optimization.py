@@ -14,10 +14,10 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.load import dumps, loads
 from langchain_community.llms import OpenAI
 from dotenv import load_dotenv
-from langchain import hub
-from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 
-load_dotenv(r"C:\Users\hopewang\OneDrive - Microsoft\Desktop\FHL2024March\rag-query-optimization\python\workspace.env", override=True)
+load_dotenv(".env", override=True)
+
+#load_dotenv(r"C:\Users\hopewang\OneDrive - Microsoft\Desktop\FHL2024March\rag-query-optimization\python\workspace.env", override=True)
 #### Execution example ####
 # python query_optimization.py --directory ".\examplefolder"
 
@@ -26,7 +26,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger, fmt='%(asctime)s [%(levelname)s] %(message)s')
 
-#OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 LANGCHAIN_API_KEY = os.getenv("LANGCHAIN_API_KEY")
 LANGCHAIN_ENDPOINT = os.getenv("LANGCHAIN_ENDPOINT")
@@ -177,7 +176,6 @@ def rag_fusion_generation(question, retriever):
 
     template = read_prompt('prompts/template_prompt.txt')
     prompt = ChatPromptTemplate.from_template(template)
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
     final_rag_chain = (
         {"context": retrieval_chain_rag_fusion, 
         "question": itemgetter("question")} 
@@ -201,7 +199,7 @@ def rag_hyde_generation(question, retriever):
     retrieval_chain = generate_docs_for_retrieval | retriever 
     retireved_docs = retrieval_chain.invoke({"question":question})
     retireved_docs
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+
     template = read_prompt('prompts/template_prompt.txt')
     prompt = ChatPromptTemplate.from_template(template)
     final_rag_chain = (
