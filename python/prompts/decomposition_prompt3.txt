@@ -1,0 +1,5 @@
+Here is a set of Q+A pairs:
+
+{context}
+
+Use these to synthesize an answer to the question: {question}
